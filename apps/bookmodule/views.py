@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from .models import Book
+from .models import Book, Address, Student
+from django.db.models import Q
+from django.db.models import Count, Min, Max, Sum, Avg
 
 # Create your views here.
 from django.http import HttpResponse
@@ -72,3 +74,29 @@ def complex_query(request):
         return render(request, 'bookmodules/bookList.html', {'books':mybooks})
     else:
         return render(request, 'bookmodules/index.html')
+
+def task1(request):
+    books=Book.objects.filter(Q(price__lte=50))
+    return render(request, 'bookmodules/bookList.html', {'books':books})
+
+def task2(request):
+    books=Book.objects.filter((Q(edition__gt=2)) & (Q(title__icontains = 'co')) | (Q(author__icontains = 'co')))
+    return render(request, 'bookmodules/bookList.html', {'books':books})
+
+def task3(request):
+    books=Book.objects.filter((~Q(edition__gt=2)) & (~Q(title__icontains = 'co')) | (~Q(author__icontains = 'co')))
+    return render(request, 'bookmodules/bookList.html', {'books':books})
+
+def task4(request):
+    books = Book.objects.order_by('title')
+    return render(request, 'bookmodules/bookList.html', {'books':books})
+
+
+def task5(request):
+    Query = Book.objects.aggregate(NumBooks = Count('id'),total = Sum('price',default=0), average = Avg('price',default=0),max = Max('price',default=0), min = Min('price',default=0) )
+    print(Query)
+    return render(request, 'bookmodules/task5.html',{'Query':Query})
+
+def task7(request):
+    cities = Address.objects.annotate(student_count=Count('student'))
+    return render(request, 'bookmodules/task7.html', {'cities':cities})

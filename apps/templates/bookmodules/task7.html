@@ -1,0 +1,50 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+{% block title %}Task 7{% endblock title %}
+
+{% block content %}
+
+<style>
+    table {
+        width: auto;
+        margin: 20px auto;
+        font-size: 1em;
+        font-family: Times New Roman;
+        text-align: center;
+    }
+
+    table, th, td {
+        border: 1px solid rgb(129, 32, 48);
+    }
+
+    th {
+        background-color: rgb(210, 70, 93);
+        padding: 10px;
+        font-weight: bold;
+        color: aliceblue;
+    }
+
+    td {
+        padding: 8px;
+    }
+
+</style>
+
+<h1><b>Task 7</b></h1>
+<table>
+    <tr>
+        <th>city</th>
+        <th>number of students</th>
+    </tr>
+    {% for city in cities %}
+    <tr>
+        <td>{{city.city}}</td>
+        <td>{{city.student_count}}</td>
+    </tr>
+{% endfor %}
+</table>
+<hr>
+
+
+{% endblock content %}
