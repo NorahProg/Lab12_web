@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Book, Address, Student
+from .models import Book, Address, department, Student, course
 from django.db.models import Q
 from django.db.models import Count, Min, Max, Sum, Avg
 
@@ -75,28 +75,77 @@ def complex_query(request):
     else:
         return render(request, 'bookmodules/index.html')
 
+# def task1(request):
+#     books=Book.objects.filter(Q(price__lte=50))
+#     return render(request, 'bookmodules/bookList.html', {'books':books})
+
+# def task2(request):
+#     books=Book.objects.filter((Q(edition__gt=2)) & (Q(title__icontains = 'co')) | (Q(author__icontains = 'co')))
+#     return render(request, 'bookmodules/bookList.html', {'books':books})
+
+# def task3(request):
+#     books=Book.objects.filter((~Q(edition__gt=2)) & (~Q(title__icontains = 'co')) | (~Q(author__icontains = 'co')))
+#     return render(request, 'bookmodules/bookList.html', {'books':books})
+
+# def task4(request):
+#     books = Book.objects.order_by('title')
+#     return render(request, 'bookmodules/bookList.html', {'books':books})
+
+
+# def task5(request):
+#     Query = Book.objects.aggregate(NumBooks = Count('id'),total = Sum('price',default=0), average = Avg('price',default=0),max = Max('price',default=0), min = Min('price',default=0) )
+#     print(Query)
+#     return render(request, 'bookmodules/task5.html',{'Query':Query})
+
+# def task7(request):
+#     cities = Address.objects.annotate(student_count=Count('student'))
+#     return render(request, 'bookmodules/task7.html', {'cities':cities})
+
 def task1(request):
-    books=Book.objects.filter(Q(price__lte=50))
-    return render(request, 'bookmodules/bookList.html', {'books':books})
+    departments = department.objects.annotate(student_count=Count('student'))
+    return render(request, 'bookmodules/department_student_count.html', {'departments': departments})
+
 
 def task2(request):
-    books=Book.objects.filter((Q(edition__gt=2)) & (Q(title__icontains = 'co')) | (Q(author__icontains = 'co')))
-    return render(request, 'bookmodules/bookList.html', {'books':books})
+    courses = course.objects.annotate(student_count=Count('student'))
+    return render(request, 'bookmodules/course_student_count.html', {'courses': courses})
+
+# def task3(request):
+#     # For each department, find the student with the lowest ID
+#     departments = department.objects.all()
+#     department_students = []
+
+#     for dept in departments:
+#         oldest_student = Student.objects.filter(department=dept).order_by('id').first()
+#         if oldest_student:
+#             department_students.append({
+#                 'department': dept.name,
+#                 'student': oldest_student.name,
+#                 'student_id': oldest_student.id
+#             })
+
+#     return render(request, 'bookmodules/oldest_student_per_department.html', {'data': department_students})
+
 
 def task3(request):
-    books=Book.objects.filter((~Q(edition__gt=2)) & (~Q(title__icontains = 'co')) | (~Q(author__icontains = 'co')))
-    return render(request, 'bookmodules/bookList.html', {'books':books})
+    
+    departments = department.objects.annotate(oldest_student_id=Min('student__id'))
+
+    department_students = []
+    for dept in departments:
+        student = Student.objects.filter(id=dept.oldest_student_id).first()
+        if student:
+            department_students.append({
+                'department': dept.name,
+                'student': student.name,
+                'student_id': student.id
+            })
+
+    return render(request, 'bookmodules/oldest_student_per_department.html', {'data': department_students})
+
 
 def task4(request):
-    books = Book.objects.order_by('title')
-    return render(request, 'bookmodules/bookList.html', {'books':books})
-
-
-def task5(request):
-    Query = Book.objects.aggregate(NumBooks = Count('id'),total = Sum('price',default=0), average = Avg('price',default=0),max = Max('price',default=0), min = Min('price',default=0) )
-    print(Query)
-    return render(request, 'bookmodules/task5.html',{'Query':Query})
-
-def task7(request):
-    cities = Address.objects.annotate(student_count=Count('student'))
-    return render(request, 'bookmodules/task7.html', {'cities':cities})
+    departments = department.objects.annotate(student_count=Count('student')) \
+                                    .filter(student_count__gt=2) \
+                                    .order_by('-student_count')
+    return render(request, 'bookmodules/departments_with_many_students.html', {'departments': departments})
