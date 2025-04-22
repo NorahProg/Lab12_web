@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Books</title>
+</head>
+<style>
+    table {
+        width: auto;
+        margin: 20px auto;
+        font-size: 1em;
+        font-family: Times New Roman;
+        text-align: center;
+    }
+
+    table, th, td {
+        border: 1px solid rgb(129, 32, 48);
+    }
+
+    th {
+        background-color: rgb(210, 70, 93);
+        padding: 10px;
+        font-weight: bold;
+        color: aliceblue;
+    }
+
+    td {
+        padding: 8px;
+    }
+
+</style>
+<body>
+    <h1>Books</h1>
+    <a href="{% url 'add_book' %}">Add New Book</a>
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>Edition</th>
+            <th>Actions</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.price }}</td>
+            <td>{{ book.edition }}</td>
+            <td>
+                <a href="{% url 'edit_book' book.id %}">Edit</a> |
+                <a href="{% url 'delete_book' book.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -39,4 +39,18 @@ urlpatterns = [
   path('lab9/task2', views.task2 ),
   path('lab9/task3', views.task3 ),
   path('lab9/task4', views.task4 ),
-]
+#   path('lab9_part1/listbooks', views.listbooks, name = "list_books"),
+#   path('lab9_part1/addbook/<int:id>' , views.addbook, name = "add_books"),
+#   path('lab9_part1/editbook/<int:id>' , views.editbook, name = "edit_books"),
+#   path('lab9_part1/deletebook/<int:id>' , views.deletebook, name = "delete_books"),
+  path('lab9_part1/listbooks', views.list_books, name='list_books'),
+  path('lab9_part1/addbook', views.add_book, name='add_book'),
+  path('lab9_part1/editbook/<int:id>', views.edit_book, name='edit_book'),
+  path('lab9_part1/deletebook/<int:id>', views.delete_book, name='delete_book'),
+  path('lab9_part2/listbooks', views.list_books2, name='list_books2'),
+  path('lab9_part2/addbook', views.add_book2, name='add_book2'),
+  path('lab9_part2/editbook/<int:id>', views.edit_book2, name='edit_book2'),
+  path('lab9_part2/deletebook/<int:id>', views.delete_book2, name='delete_book2'),
+
+  
+  ]

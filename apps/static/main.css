@@ -25,14 +25,14 @@
 a {
     font-size: 18px;
 }
-.section1{
+#section1 a{
     color: red;
 }
 
-.section2 a{
+#section2 a{
     color: yellow;
 }
-.section3 a{
+#section3 a{
     color: white;
 }
 

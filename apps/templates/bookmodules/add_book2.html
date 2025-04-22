@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Books</title>
+</head>
+<body>
+
+<h1>Add Book (With Django Forms)</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Add Book</button>
+</form>
+</body>
+</html>
