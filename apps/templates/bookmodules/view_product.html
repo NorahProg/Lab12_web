@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>view product</title>
+
+  </head>
+  <body>
+
+    <h3>{{pro.id}}</h3> <br>
+    <h3>{{pro.kind}}</h3> <br>
+    <h3>{{pro.company.name}}</h3> <br>
+    <h3>{{pro.expir_year}}</h3> <br>
+    <h4> <a href="{% url 'editt' pro.id %}">Edit product</a> </h4>
+    <h4> <a href="{% url 'deletee' pro.id %}">Delete product</a> </h4>
+  </body>
+
+</html>

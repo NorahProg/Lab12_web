@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Book, Address, department, Student, course
+from .models import Book, Address, department, Student, course, product, company,Student2, Student3, Document
 from django.db.models import Q
 from django.db.models import Count, Min, Max, Sum, Avg
-from .forms import BookForm
+from .forms import BookForm, StudentForm, Student3Form, DocumentForm, DocumentForm
 
 
 # Create your views here.
@@ -234,3 +234,119 @@ def delete_book2(request, id):
     book = Book.objects.get(id=id)
     book.delete()
     return redirect('list_books2')
+
+def list_product(request):
+    pro = product.objects.all()
+    return render(request, 'bookmodules/list_product.html', {'pro': pro})
+def landing(request):
+   return render(request, 'bookmodules/landing.html')
+
+def view_product(request, id):
+   pro = product.objects.get(id=id)
+   return render(request, 'bookmodules/view_product.html', {'pro': pro})
+
+def editt(request, id):
+   pro = product.objects.get(id=id)
+
+   if request.method == 'POST':
+      pro.kind = request.POST.get('kind')
+      pro.expir_year = request.POST.get('expir_year')
+      company_id = request.POST.get('company_id')
+      pro.company = company.objects.get(id=company_id)
+      pro.save()
+      return redirect('list_product')
+   
+   comp = company.objects.all()
+   return render(request, 'bookmodules/editt.html', {'pro': pro ,'comp':comp})
+def deletee(request, id):
+   pro = product.objects.get(id=id)
+   pro.delete()
+   return redirect('list_product')
+
+def list_students(request):
+   st = Student2.objects.all()
+   return render(request, 'bookmodules/list_students.html', {'st':st})
+
+def add_student(request):
+   if request.method == 'POST':
+      form = StudentForm(request.POST)
+      if form.is_valid():
+         form.save()
+         return redirect('list_students')
+   else: form = StudentForm()
+   return render(request, 'bookmodules/add_student.html', {'form':form})
+
+
+def edit_student(request, id):
+   student = Student2.objects.get(id=id)
+   form = StudentForm(instance=student)
+
+   if request.method == 'POST':
+      form = StudentForm(request.POST, instance=student)
+      if form.is_valid():
+         form.save()
+         return redirect('list_students')
+      else: form = StudentForm(instance=student)
+            
+   return render(request, 'bookmodules/edit_student.html', {'form':form})
+
+def delete_student(request, id):
+   student = Student2.objects.get(id=id)
+   student.delete()
+   return redirect('list_students')
+
+
+def list_students2(request):
+   st = Student3.objects.all()
+   return render(request, 'bookmodules/list_students2.html', {'st':st})
+
+def add_student2(request):
+   if request.method == 'POST':
+      form = Student3Form(request.POST)
+      if form.is_valid():
+         form.save()
+         return redirect('list_students2')
+   else: form = Student3Form()
+   return render(request, 'bookmodules/add_student2.html', {'form':form})
+
+def edit_student2(request, id):
+   student = Student3.objects.get(id=id)
+   form = Student3Form(instance=student)
+   
+   if request.method == 'POST':
+      form = Student3Form(request.POST, instance=student)
+      if form.is_valid():
+         form.save()
+         return redirect('list_students2')
+      else: form = Student3Form(instance=student)
+            
+   return render(request, 'bookmodules/edit_student2.html', {'form':form})
+
+def delete_student2(request, id):
+   student = Student3.objects.get(id=id)
+   student.delete()
+   return redirect('list_students2')
+
+# def add_document(request):
+#     if request.method == 'POST':
+#         form = DocumentForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('list_documents')
+#     else:
+#         form = DocumentForm()
+#     return render(request, 'bookmodules/add_document.html', {'form': form})
+
+def list_documents(request):
+    documents = Document.objects.all()
+    return render(request, 'bookmodules/list_documents.html', {'documents': documents})
+
+def add_document(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES) 
+        if form.is_valid():
+            form.save()
+            return redirect('list_documents')  
+    else:
+        form = DocumentForm()
+    return render(request, 'bookmodules/add_document.html', {'form': form})

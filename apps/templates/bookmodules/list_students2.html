@@ -1,0 +1,33 @@
+<style>
+    table th,tr, td {
+        border: 1px solid black;
+    }
+    
+    
+    th{
+        background-color: pink;
+    }
+</style>
+
+<h1>Students List (2)</h1>
+<a href="{% url 'add_student2' %}">add student</a>
+<table>
+    <tr>
+        <th>name</th>
+        <th>age</th>
+        <th>address</th>
+        <th>actions</th>
+    </tr>
+    {% for s in st %}
+    <tr>
+        <td>{{s.name}}</td>
+        <td>{{s.age}}</td>
+        <td> {% for addr in s.addresses.all %}
+            {{ addr }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}</td>
+        <td>
+            <a href="{% url 'edit_student2' s.id %}">edit</a> | <a href="{% url 'delete_student2' s.id %}">delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>

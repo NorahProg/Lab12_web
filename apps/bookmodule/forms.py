@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book
+from .models import Book, Student2, Document
 
 class BookForm(forms.ModelForm):
     
@@ -39,3 +39,27 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['title', 'author', 'price', 'edition']
+
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student2
+        fields = ['name', 'age', 'address']
+
+from django import forms
+from .models import Student3
+
+
+class Student3Form(forms.ModelForm):
+    class Meta:
+        model  = Student3
+        fields = ['name', 'age', 'addresses']
+        widgets = {
+            'addresses': forms.CheckboxSelectMultiple(),  
+        }
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model  = Document
+        fields = ['title', 'file']
+

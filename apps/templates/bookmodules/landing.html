@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>landing page</title>
+  </head>
+  {% load static %}
+  <body>
+    <dev>
+        <a href="view_product.html">view product</a>
+        <a href="{% url 'list_product' %}">list_product</a>
+
+    </dev>
+    <h1>Landing page</h1> <hr>
+    <img src="{% static 'qu-icon.png' %}">
+
+  </body>
+  </html>

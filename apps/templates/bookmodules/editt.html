@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>editing</title>
+  </head>
+  <body>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="kind" value="{{pro.kind}}"/> <br>
+        <input type="number" name="expir_year" value="{{pro.expir_year}}"/> <br>
+        <select name="company_id">
+            {% for c in comp %}
+            <option value="{{c.id}}">{{c.name}}</option> 
+            {% endfor %}
+        </select> <br>
+        <button type="submit">edit</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>List of products</title>
+  </head>
+  <style>
+    table, th, tr, td{
+        border: 1px solid black;
+        
+
+    }
+    th{
+        background-color: antiquewhite;
+    }
+  </style>
+  <body>
+    <h1> list of products </h1>
+    <table>
+        <tr>
+            <th>product name</th>
+            <th>product company</th>
+            <th>expire year</th>
+            <th>view a product</th>
+        </tr>
+        {% for prod in pro %}
+        <tr>
+            
+             <td>{{prod.kind}}</td>
+             <td>{{prod.company.name}}</td>
+             <td>{{prod.expir_year}}</td>
+            <td> <a href= "{% url 'view_product' prod.id %}">view product</a> </td>
+        </tr>
+        {% endfor %}
+    </table>
+  </body>
+</html>
