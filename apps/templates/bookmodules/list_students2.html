@@ -10,7 +10,21 @@
 </style>
 
 <h1>Students List (2)</h1>
+
+{% if user.is_authenticated %}
 <a href="{% url 'add_student2' %}">add student</a>
+{% else %}
+    <p>You need to be logged in to add students.</p>
+{% endif %}
+<br/>
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 <table>
     <tr>
         <th>name</th>
@@ -25,9 +39,16 @@
         <td> {% for addr in s.addresses.all %}
             {{ addr }}{% if not forloop.last %}, {% endif %}
           {% endfor %}</td>
-        <td>
+        <td>    {% if user.is_authenticated %}
             <a href="{% url 'edit_student2' s.id %}">edit</a> | <a href="{% url 'delete_student2' s.id %}">delete</a>
+            {% else %}
+            <p>Login to edit.</p>
+        {% endif %}
         </td>
     </tr>
     {% endfor %}
 </table>
+</br>
+{% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">Logout</a>
+{% endif %}

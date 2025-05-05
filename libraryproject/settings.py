@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.bookmodule',
     'apps.usermodule',
-
+    'django_recaptcha',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +54,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 ]
+
+RECAPTCHA_PUBLIC_KEY = '6LeHnygrAAAAAKtXW19Fhnvgqq_y7FUXXeX_rlRf'
+RECAPTCHA_PRIVATE_KEY = '6LeHnygrAAAAANw2_tWC8ao24JhPZarK5pOX5RPn'
 
 ROOT_URLCONF = 'libraryproject.urls'
 
@@ -129,3 +138,8 @@ STATICFILES_DIRS = [( os.path.join(BASE_DIR, "apps/static"))]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = 'list_students'
+LOGOUT_REDIRECT_URL = 'login'

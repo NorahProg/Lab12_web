@@ -3,7 +3,7 @@ from .models import Book, Address, department, Student, course, product, company
 from django.db.models import Q
 from django.db.models import Count, Min, Max, Sum, Avg
 from .forms import BookForm, StudentForm, Student3Form, DocumentForm, DocumentForm
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from django.http import HttpResponse
@@ -267,6 +267,7 @@ def list_students(request):
    st = Student2.objects.all()
    return render(request, 'bookmodules/list_students.html', {'st':st})
 
+@login_required
 def add_student(request):
    if request.method == 'POST':
       form = StudentForm(request.POST)
@@ -276,7 +277,7 @@ def add_student(request):
    else: form = StudentForm()
    return render(request, 'bookmodules/add_student.html', {'form':form})
 
-
+@login_required
 def edit_student(request, id):
    student = Student2.objects.get(id=id)
    form = StudentForm(instance=student)
@@ -290,6 +291,7 @@ def edit_student(request, id):
             
    return render(request, 'bookmodules/edit_student.html', {'form':form})
 
+@login_required
 def delete_student(request, id):
    student = Student2.objects.get(id=id)
    student.delete()
@@ -300,6 +302,7 @@ def list_students2(request):
    st = Student3.objects.all()
    return render(request, 'bookmodules/list_students2.html', {'st':st})
 
+@login_required
 def add_student2(request):
    if request.method == 'POST':
       form = Student3Form(request.POST)
@@ -309,6 +312,7 @@ def add_student2(request):
    else: form = Student3Form()
    return render(request, 'bookmodules/add_student2.html', {'form':form})
 
+@login_required
 def edit_student2(request, id):
    student = Student3.objects.get(id=id)
    form = Student3Form(instance=student)
@@ -322,6 +326,7 @@ def edit_student2(request, id):
             
    return render(request, 'bookmodules/edit_student2.html', {'form':form})
 
+@login_required
 def delete_student2(request, id):
    student = Student3.objects.get(id=id)
    student.delete()
@@ -341,6 +346,7 @@ def list_documents(request):
     documents = Document.objects.all()
     return render(request, 'bookmodules/list_documents.html', {'documents': documents})
 
+@login_required
 def add_document(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES) 

@@ -1,3 +1,11 @@
+{% extends "layouts/base.html" %}
+ 
+ 
+{% block title %} List students {% endblock title %}
+ 
+{% block content %}
+
+
 <style>
     table th,tr, td {
         border: 1px solid black;
@@ -10,7 +18,22 @@
 </style>
 
 <h1>Students List</h1>
+
+{% if user.is_authenticated %}
 <a href="{% url 'add_student' %}">add student</a>
+{% else %}
+    <p>You need to be logged in to add or edit students.</p>
+{% endif %}
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
 <table>
     <tr>
         <th>name</th>
@@ -23,9 +46,19 @@
         <td>{{s.name}}</td>
         <td>{{s.age}}</td>
         <td>{{s.address.city}}</td>
-        <td>
+        <td> {% if user.is_authenticated %}
             <a href="{% url 'edit_student' s.id %}">edit</a> | <a href="{% url 'delete_student' s.id %}">delete</a>
+            {% else %}
+            <p>You need to be logged in to edit students.</p>
+            {% endif %}
         </td>
     </tr>
     {% endfor %}
 </table>
+
+</br>
+{% if user.is_authenticated %}
+    <a href="{% url 'logout' %}">Logout</a>
+{% endif %}
+
+{% endblock content %}
