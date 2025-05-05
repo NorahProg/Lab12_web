@@ -23,6 +23,8 @@
 <a href="{% url 'add_student' %}">add student</a>
 {% else %}
     <p>You need to be logged in to add or edit students.</p>
+<a href="{% url 'login' %}">login</a>
+</br>
 {% endif %}
 
 {% if messages %}
@@ -50,6 +52,8 @@
             <a href="{% url 'edit_student' s.id %}">edit</a> | <a href="{% url 'delete_student' s.id %}">delete</a>
             {% else %}
             <p>You need to be logged in to edit students.</p>
+       
+        <a href="{% url 'login' %}">login</a>
             {% endif %}
         </td>
     </tr>
